@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem.button {
             button.title = "📢"
         }
-        guard let url = Bundle.main.url(forResource: "sound", withExtension: "m4a") else { return }
+        guard let url = Bundle.main.url(forResource: "sound", withExtension: "mp3") else { return }
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
         } catch {
