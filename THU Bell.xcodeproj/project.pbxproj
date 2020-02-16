@@ -8,21 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		5A8BA10523F9480E00BA1539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8BA10423F9480E00BA1539 /* AppDelegate.swift */; };
-		5A8BA10723F9480E00BA1539 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8BA10623F9480E00BA1539 /* ContentView.swift */; };
 		5A8BA10923F9480E00BA1539 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A8BA10823F9480E00BA1539 /* Assets.xcassets */; };
 		5A8BA10C23F9480E00BA1539 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A8BA10B23F9480E00BA1539 /* Preview Assets.xcassets */; };
 		5A8BA10F23F9480E00BA1539 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A8BA10D23F9480E00BA1539 /* Main.storyboard */; };
+		5A8BA11823F9532300BA1539 /* sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A8BA11723F9532300BA1539 /* sound.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5A8BA10123F9480E00BA1539 /* THU Bell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "THU Bell.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A8BA10423F9480E00BA1539 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5A8BA10623F9480E00BA1539 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5A8BA10823F9480E00BA1539 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A8BA10B23F9480E00BA1539 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5A8BA10E23F9480E00BA1539 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5A8BA11023F9480E00BA1539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A8BA11123F9480E00BA1539 /* THU_Bell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = THU_Bell.entitlements; sourceTree = "<group>"; };
+		5A8BA11723F9532300BA1539 /* sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = sound.m4a; path = ../sound.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +55,8 @@
 		5A8BA10323F9480E00BA1539 /* THU Bell */ = {
 			isa = PBXGroup;
 			children = (
+				5A8BA11723F9532300BA1539 /* sound.m4a */,
 				5A8BA10423F9480E00BA1539 /* AppDelegate.swift */,
-				5A8BA10623F9480E00BA1539 /* ContentView.swift */,
 				5A8BA10823F9480E00BA1539 /* Assets.xcassets */,
 				5A8BA10D23F9480E00BA1539 /* Main.storyboard */,
 				5A8BA11023F9480E00BA1539 /* Info.plist */,
@@ -134,6 +134,7 @@
 			files = (
 				5A8BA10F23F9480E00BA1539 /* Main.storyboard in Resources */,
 				5A8BA10C23F9480E00BA1539 /* Preview Assets.xcassets in Resources */,
+				5A8BA11823F9532300BA1539 /* sound.m4a in Resources */,
 				5A8BA10923F9480E00BA1539 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,7 +146,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A8BA10723F9480E00BA1539 /* ContentView.swift in Sources */,
 				5A8BA10523F9480E00BA1539 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
