@@ -104,14 +104,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         nextWeekDay = getWeekDay(date: nextDate)
         
-        if currentTime >= times[times.count - 1] || nextWeekDay > 5 { // or nextWeekDay > 5
+        if currentTime >= times[times.count - 1] || nextWeekDay > 5 { // Late night or weekend
             nextIndex = times.count
         } else {
-            for (index, time) in times.enumerated() {
-                if currentTime >= time {
-                    nextIndex = index + 1
-                } else {
-                    break
+            if currentTime < times[0] {
+                nextIndex = 0
+            } else {
+                for (index, time) in times.enumerated() {
+                    if currentTime >= time {
+                        nextIndex = index + 1
+                    } else {
+                        break
+                    }
                 }
             }
         }
