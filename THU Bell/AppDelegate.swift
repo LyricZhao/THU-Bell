@@ -18,6 +18,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     var audioPlayer: AVAudioPlayer!
     
+    let thuTimeZone = TimeZone(identifier: "Asia/Hong_Kong")
+    
     var nextDate: Date!
     var nextWeekDay, nextIndex: Int!
     var timer: Timer!
@@ -28,10 +30,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var timeDisplay: NSMenuItem!
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Status menu
         statusItem.menu = menu
         if let button = statusItem.button {
             button.title = "📢"
         }
+        
+        // Load sound
         guard let url = Bundle.main.url(forResource: "sound", withExtension: "mp3") else { return }
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
@@ -39,13 +44,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApplication.shared.terminate(self)
         }
         
+        // Sleep and wake up support
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(onWakeNote(note:)), name: NSWorkspace.didWakeNotification, object: nil)
-
         NSWorkspace.shared.notificationCenter.addObserver(self, selector:#selector(onSleepNote(note:)), name: NSWorkspace.willSleepNotification, object: nil)
         
+        // Initialize time setting
         reset()
     }
     
+    // Calculate next time
     func next() {
         nextIndex += 1
         if nextIndex == times.count {
@@ -60,44 +67,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = thuTimeZone
         dateFormatter.dateFormat = "YYYY-MM-dd"
-            
+
         let formatter = DateFormatter()
+        formatter.timeZone = thuTimeZone
         formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         
         nextDate = formatter.date(from: dateFormatter.string(from: nextDate) + " " + times[nextIndex])
     }
     
+    // Time up
     @objc func setNextTime() {
         if trigger {
             self.audioPlayer.play()
         }
         
-        let formatter = DateFormatter()
+        let formatter = DateFormatter() // Local time formatter
         formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         let dateString = formatter.string(from: nextDate)
+        
+        print("Set a timer for next time (local time): \(dateString).")
+        self.timeDisplay.title = "下次铃声：" + dateString
         
         timer = Timer(fireAt: nextDate, interval: 0, target: self, selector: #selector(setNextTime), userInfo: nil, repeats: false)
         trigger = true
         RunLoop.current.add(timer, forMode: .common)
         next()
-        
-        print("Set a timer for next time: \(dateString).")
-        self.timeDisplay.title = "下次铃声：" + dateString
     }
-
+    
+    // Calculate the weekday
     func getWeekDay(date: Date) -> Int {
-        let interval = Int(date.timeIntervalSince1970) + NSTimeZone.local.secondsFromGMT()
+        let interval = Int(date.timeIntervalSince1970) + (thuTimeZone?.secondsFromGMT())!
         let days = Int(interval / 86400)
         let weekday = ((days + 4) % 7 + 7) % 7
         return weekday == 0 ? 7 : weekday
     }
     
+    // Initialize time setting
     func reset() {
         trigger = false
         
         nextDate = Date()
         let formatter = DateFormatter()
+        formatter.timeZone = thuTimeZone
         formatter.dateFormat = "HH:mm:ss"
         
         let currentTime = "\(formatter.string(from: nextDate))"
@@ -120,11 +133,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setNextTime()
     }
     
+    // Wake up and reset
     @objc func onWakeNote(note: NSNotification) {
         print("System wakes up, reset the timer.")
         reset()
     }
     
+    // Sleep and cancel the timer
     @objc func onSleepNote(note: NSNotification) {
         print("System sleeps, cancel the timer.")
         if timer != nil {
@@ -133,6 +148,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    // Quit
     @IBAction func quitApp(_ sender: Any) {
         NSApplication.shared.terminate(self)
     }
