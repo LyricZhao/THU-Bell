@@ -683,7 +683,7 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="Var-a1-35V">
                     <items>
-                        <menuItem title="THU Bell v1.0" id="ddY-c1-DYO">
+                        <menuItem title="THU Bell v1.0.2" id="ddY-c1-DYO">
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
                         <menuItem title="Next Time" id="IcN-cY-UXW">

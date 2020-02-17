@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var nextDate: Date!
     var nextWeekDay, nextIndex: Int!
+    var timer: Timer!
     var trigger = false
     
     let times = ["08:00:00", "08:45:00", "08:50:00", "09:35:00", "09:50:00", "10:35:00", "10:40:00", "11:25:00", "11:30:00", "12:15:00", "13:30:00", "14:15:00", "14:20:00", "15:05:00", "15:20:00", "16:05:00", "16:10:00", "16:55:00", "17:05:00", "17:50:00", "17:55:00", "18:40:00", "19:20:00", "20:05:00", "20:10:00", "20:55:00", "21:00:00", "21:45:00"]
@@ -38,8 +39,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApplication.shared.terminate(self)
         }
         
-        initTimeSetting()
-        setNextTime()
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(onWakeNote(note:)), name: NSWorkspace.didWakeNotification, object: nil)
+
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector:#selector(onSleepNote(note:)), name: NSWorkspace.willSleepNotification, object: nil)
+        
+        reset()
     }
     
     func next() {
@@ -73,12 +77,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         let dateString = formatter.string(from: nextDate)
         
-        let timer = Timer(fireAt: nextDate, interval: 0, target: self, selector: #selector(setNextTime), userInfo: nil, repeats: false)
+        timer = Timer(fireAt: nextDate, interval: 0, target: self, selector: #selector(setNextTime), userInfo: nil, repeats: false)
         trigger = true
         RunLoop.current.add(timer, forMode: .common)
         next()
         
-        print("Next time: \(dateString)")
+        print("Set a timer for next time: \(dateString).")
         self.timeDisplay.title = "下次铃声：" + dateString
     }
 
@@ -89,7 +93,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return weekday == 0 ? 7 : weekday
     }
     
-    func initTimeSetting() {
+    func reset() {
+        trigger = false
+        
         nextDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
@@ -112,10 +118,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         nextIndex -= 1
         next()
+        setNextTime()
     }
     
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    @objc func onWakeNote(note: NSNotification) {
+        print("System wakes up, reset the timer.")
+        reset()
+    }
+    
+    @objc func onSleepNote(note: NSNotification) {
+        print("System sleeps, cancel the timer.")
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
     }
     
     @IBAction func quitApp(_ sender: Any) {
