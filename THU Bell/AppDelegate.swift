@@ -107,15 +107,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if currentTime >= times[times.count - 1] || nextWeekDay > 5 { // Late night or weekend
             nextIndex = times.count
         } else {
-            if currentTime < times[0] {
-                nextIndex = 0
-            } else {
-                for (index, time) in times.enumerated() {
-                    if currentTime >= time {
-                        nextIndex = index + 1
-                    } else {
-                        break
-                    }
+            for (index, time) in times.enumerated() {
+                if time > currentTime {
+                    nextIndex = index
+                    break
                 }
             }
         }
