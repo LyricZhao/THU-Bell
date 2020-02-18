@@ -676,7 +676,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="THU_Bell" customModuleProvider="target">
                     <connections>
                         <outlet property="menu" destination="Var-a1-35V" id="2YS-SV-M0t"/>
-                        <outlet property="stopRingBt" destination="7tC-6k-vIF" id="QNe-aI-MnU"/>
+                        <outlet property="stopRingButton" destination="7tC-6k-vIF" id="QNe-aI-MnU"/>
                         <outlet property="timeDisplay" destination="IcN-cY-UXW" id="NQY-9F-5HS"/>
                     </connections>
                 </customObject>
@@ -684,7 +684,10 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="Var-a1-35V">
                     <items>
-                        <menuItem title="THU Bell v1.0.4" id="ddY-c1-DYO">
+                        <menuItem title="THU Bell v1.0.4" enabled="NO" id="ddY-c1-DYO">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Next Time" enabled="NO" id="IcN-cY-UXW">
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
                         <menuItem title="跳过本次响铃" id="7tC-6k-vIF">
@@ -692,9 +695,6 @@
                             <connections>
                                 <action selector="stopRing:" target="Voe-Tx-rLC" id="Yxw-eG-3zI"/>
                             </connections>
-                        </menuItem>
-                        <menuItem title="Next Time" id="IcN-cY-UXW">
-                            <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
                         <menuItem title="退出" id="PCG-Sk-IQa">
                             <modifierMask key="keyEquivalentModifierMask"/>
