@@ -11,12 +11,13 @@ import SwiftUI
 import AVFoundation
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, AVAudioPlayerDelegate {
     
     @IBOutlet weak var menu: NSMenu!
     
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     var audioPlayer: AVAudioPlayer!
+    @IBOutlet weak var stopRingBt: NSMenuItem!
     
     let thuTimeZone = TimeZone(identifier: "Asia/Hong_Kong")
     
@@ -25,6 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var timer: Timer!
     var trigger = false
     
+    // MARK: Time Table
     let times = ["08:00:00", "08:45:00", "08:50:00", "09:35:00", "09:50:00", "10:35:00", "10:40:00", "11:25:00", "11:30:00", "12:15:00", "13:30:00", "14:15:00", "14:20:00", "15:05:00", "15:20:00", "16:05:00", "16:10:00", "16:55:00", "17:05:00", "17:50:00", "17:55:00", "18:40:00", "19:20:00", "20:05:00", "20:10:00", "20:55:00", "21:00:00", "21:45:00"]
     
     @IBOutlet var timeDisplay: NSMenuItem!
@@ -32,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Status menu
         statusItem.menu = menu
+        menu.autoenablesItems = false
         if let button = statusItem.button {
             button.title = "📢"
         }
@@ -43,6 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             NSApplication.shared.terminate(self)
         }
+        audioPlayer.delegate = self
         
         // Sleep and wake up support
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(onWakeNote(note:)), name: NSWorkspace.didWakeNotification, object: nil)
@@ -81,6 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func setNextTime() {
         if trigger {
             self.audioPlayer.play()
+            stopRingBt.isEnabled = true
         }
         
         let formatter = DateFormatter() // Local time formatter
@@ -107,6 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Initialize time setting
     func reset() {
         trigger = false
+        stopRingBt.isEnabled = false
         
         nextDate = Date()
         let formatter = DateFormatter()
@@ -151,6 +157,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Quit
     @IBAction func quitApp(_ sender: Any) {
         NSApplication.shared.terminate(self)
+    }
+    
+    // Skip current ring
+    @IBAction func stopRing(_ sender: Any) {
+        guard audioPlayer.isPlaying else {
+            print("bell not ringing")
+            return
+        }
+        audioPlayer.stop()
+        audioPlayer.currentTime = 0
+        stopRingBt.isEnabled = false
+    }
+    
+    // When the bell finishes playing, this function will be evoked
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        print("bell finished")
+        stopRingBt.isEnabled = false
     }
 }
 
